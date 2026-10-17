@@ -124,5 +124,64 @@ Approach
    Add monitoring
 
 Communicating results
-Reports separate evidence from inference and list the limitations caused by gaps. Reviewers should be able to see exactly which conclusions would change of the 
-A
+
+Reports separate evidence from inference and list the limitations caused by gaps. Reviewers should be able to see exactly which conclusions would change if the missind data turned up.
+
+Metrics I would track
+   Percentage of critical systems with complete logging
+   Time to detect a silent source
+   Number of investigations limited by missing data
+
+
+
+PART 5: COMPLIANCE REPORTING IN A MULTI CLOUD ENVIRONMENT
+
+Since its cloud service has its own services and formats, the strategy is to define controls once, collect evidence automatically from very cloud, and report from on normalized view.
+
+Strategy
+
+1. Once control framework, mapped to each cloud
+
+A master set, such as ISO/IEC 27001:2022, with HIPAA mapped on top where patient or personal data is involved. Each control is mapped to the native check or evidence source in each provider
+
+| Control (ISO 27001:2022 / HIPAA) | AWS | AZURE | GCP |
+| --- | --- | --- | --- |
+| A.8.15 Logging; HIPAA audit controls | CloudTrail, CloudWatch Logs | Activity Log, Azure Monitor | Cloud Audit Logs |
+| A.8.16 Monitoring activities | GuardDuty, Securiy Hub | Defender for Cloud | Security Command Center |
+| A.8.8 Technical vulnerability management | Inspector | Defender for Cloud | Security Command Center |
+| A.8.9 Use of Cryptography | KMS and encryption checks | Key Vault, storage encryption policies | Cloud KMS, CMEK policies |
+| A.8.12 Data Leakage prevention | Macie, gateway DLP | Microsoft Purview | Sensitive Data Protection |
+| A.8.28 / A.8.29 Secure coding and testing | CI results from SAST, SCA, DAST | Same pipeline | Same pipeline |
+| A.5.24 to A.5.28 Incident management | Runbooks, SIEM cases, CloudTrail evidence | Same | Same |
+
+
+2. Automation of evidence collection
+
+Scheduled exports of configuration state and findings go into a central evidence store
+
+3. Normalize the data
+
+Use of a common model so results can be compared and rolled up. Findings from different services can be converted to one schema before reporting
+
+4. Reporoting on a cadence
+
+A sample management report covers: overall posture, control status by framework and by cloud, trend since last period, incidents and metrics and a remediation plan with owners
+
+5. Management of exceptions formally
+
+Every deviation has an owner, a reason, an approval and an expiry date using the same risk acceptance. Expired exceptions automatically reappear as failures
+
+6. Trustworthy evidence
+
+Evidence is stored in  immutable storage, logging of those who access it is donw and kept for the retention period
+
+Tooling Options
+   Native services per cloud for checks
+   A multi cloud scanner such as Prowler for consistent checks 
+   A single reporting layer the SIEM, a data lake with a dashboard 
+   Commercial CSPM platforms where budget allows
+
+
+Metrics Worth reporting
+
+Percentage of controls passing per cloud and framework, Time to remediate failed controls, number and age of open exceptions, percentage of accounts with logging and monitoring enabled, and audit findings closed on time
