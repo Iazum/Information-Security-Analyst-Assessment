@@ -14,7 +14,7 @@ Tool selection
 | Secrets | Gitleaks  (pre commit and CI) plus Github push protection | Catches secrets locally and server-side, including history |
 | SCA | pip-audit or depandabot for known CVEs, plus a custom checker for hallucinated packages | Standard SCA misses packages that don't exist |
 | DAST | OWASP ZAP API scan driven by the OpenAPI definition, plus a two user authorization test | Free, scriptable, good API support; generic scanners can't detect broken authorization |
-| SIEM and detection | AWS (CloudTrail, Route 53 Resolver logs, WAF logs, GuardDuty, Security Hub CSPM, EventBridge) for a lean setup, or WAZUH/ OpenSearch for a full SIEM UI. Rules are written in Sigma so the stay portable | Low cost, integrated with the existing AWS environment, detections aren't locked to one product |
+| SIEM and detection |   WAZUH/ OpenSearch for a full SIEM UI. Rules are written in Sigma so the stay portable | Low cost, integrated with the existing AWS environment, detections aren't locked to one product |
 | CI/CD | Github Actions, authenticating to AWS through OIDC | Pipelines live beside the code |
 
 
