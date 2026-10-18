@@ -1,0 +1,16 @@
+name: PR security checks
+on: [pull_request]
+jobs:
+  sast-sca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - run: bandit -r app -ll
+      - run: pip-audit -r requirements.txt
+      - run: semgrep --config p/python --config .semgrep/ --error app
+      - uses: gitleaks/gitleaks-action@v2
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
