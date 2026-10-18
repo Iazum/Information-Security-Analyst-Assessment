@@ -1,0 +1,56 @@
+rules:
+  # 1. Classic SQL injection: string-built queries passed to execute()
+  - id: sqli-string-built-query
+    languages: [python]
+    severity: ERROR
+    message: >
+      SQL query built with an f-string, concatenation, % or .format().
+      Use parameterized queries: db.execute("... where id=?", (value,))
+    metadata:
+      cwe: "CWE-89: SQL Injection"
+    pattern-either:
+      - pattern: $DB.execute(f"...", ...)
+      - pattern: $DB.execute("..." + $X, ...)
+      - pattern: $DB.execute("..." % $X, ...)
+      - pattern: $DB.execute("...".format(...), ...)
+
+  # 2. AI-style logic flaw: orders queried inside a route with no owner filter (BOLA/IDOR)
+  - id: order-query-missing-owner-filter
+    languages: [python]
+    severity: WARNING
+    message: >
+      Query on the orders table inside a route handler does not filter by
+      owner_id. Any authenticated user may read other users' records (BOLA/IDOR).
+    metadata:
+      cwe: "CWE-639: Authorization Bypass Through User-Controlled Key"
+    patterns:
+      - pattern-inside: |
+          @app.$METHOD(...)
+          def $FUNC(...):
+              ...
+      - pattern: $DB.execute($QUERY, ...)
+      - metavariable-regex:
+          metavariable: $QUERY
+          regex: '(?is)^(?!.*owner_id).*from\s+orders'
+
+  # 3. Route with no authentication at all
+  - id: route-missing-auth
+    languages: [python]
+    severity: ERROR
+    message: >
+      API route never calls current_user() and has no Depends(current_user).
+      Unauthenticated callers can reach it.
+    metadata:
+      cwe: "CWE-306: Missing Authentication for Critical Function"
+    patterns:
+      - pattern: |
+          @app.$METHOD("/api/...", ...)
+          def $FUNC(...):
+              ...
+      - pattern-not: |
+          @app.$METHOD("/api/...", ...)
+          def $FUNC(...):
+              ...
+              current_user(...)
+              ...
+      - pattern-not-regex: 'Depends\(\s*current_user\s*\)'
