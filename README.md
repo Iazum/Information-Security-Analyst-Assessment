@@ -27,28 +27,51 @@ Repository structure
 
 .
 ├── README.md                        <- you are here
+
 ├── .pre-commit-config.yaml          secret scanning + dependency check at commit time
+
 ├── .gitleaks.toml
+
 ├── .github/workflows/               secrets.yml, sast.yml, sca.yml, dast.yml
+
 ├── tests/fixtures/                  intentionally bad inputs used to prove the checks work
+
 │
+
 ├── section-1-secure-api-gateway/
+
 │   ├── README.md                    parts a to f
+
 │   ├── apis/                        orders, summarize and LLM gateway Lambda code
+
 │   ├── diagram/
+
 │   ├── screenshots/
+
 │   ├── evidence/
+
 │   └── tests/                       run_tests.sh and captured results
+
 │
+
 └── section-1b-security-engineering/
+
     ├── README.md                    answers 1 to 6 plus the AI logic-flaw question
+    
     ├── semgrep-rules/
+    
     ├── sca/
+    
     ├── dast/
+    
     └── siem/
+    
 ├── section-2-softskills-policy/
+
 │   ├── README.md                    answers a to g
+
 │   └── incident-report/             one-page report (Markdown and PDF)
+
 │
 
 
