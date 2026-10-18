@@ -18,3 +18,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: zap-reports, path: reports/ }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest httpx
+      - name: Authorization tests (BOLA)
+        run: pytest tests/ -v
+        continue-on-error: true   # report-only stage; remove later to block
