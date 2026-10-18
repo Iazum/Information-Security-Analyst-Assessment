@@ -163,7 +163,7 @@ Scheduled exports of configuration state and findings go into a central evidence
 
 Use of a common model so results can be compared and rolled up. Findings from different services can be converted to one schema before reporting
 
-4. Reporoting on a cadence
+4. Reporting on a cadence
 
 A sample management report covers: overall posture, control status by framework and by cloud, trend since last period, incidents and metrics and a remediation plan with owners
 
